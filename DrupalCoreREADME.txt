@@ -1,24 +1,3 @@
-# Come Along
-
-##### Come Along
-
-#### By Kevin Tokheim, Phillip Shannon, Annie Hoogendoorn, Christopher Calascione, Samantha Maturen, Ben Spenard
-
-## Description
-
-This is a social networking website designed to connect travelers who are going to the same destinations.
-
-## Setup
-
-* Clone this repository
-* Set document root to the top level directory of the repository
-* Import the database, found in `sites/db-backup`
-* Create a user for the database: username = "epicodus", password = "epicodus"
-* Point browser to localhost
-* Site maintenance account info: username = "epicodus", password = "epicodus"
-
-## Standard Drupal Core Readme below
-
 
 CONTENTS OF THIS FILE
 ---------------------
