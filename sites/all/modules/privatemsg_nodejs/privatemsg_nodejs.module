@@ -231,7 +231,6 @@ function privatemsg_nodejs_form_privatemsg_new_alter(&$form, &$form_state, $form
       $chat_link = PrivatemsgNodejs::getMiniChatLink($form_state['build_info']['args'][2], array(), $user->uid);
       $form['actions']['mini_chat'] = array(
         '#theme' => 'link',
-        '#text' => t('Open mini chat'),
         '#path' => url($chat_link['path'], array('query' => $chat_link['query'], 'absolute' => TRUE)),
         '#options' => array(
           'attributes' => array(
@@ -281,7 +280,7 @@ function privatemsg_nodejs_new_submit($form, &$form_state) {
  * $message is updated with mid and thread id. Use this hook to store data,
  * that needs to point to the saved message for example attachments.
  *
- * @param array $message 
+ * @param array $message
  *   Message array.
  */
 function privatemsg_nodejs_privatemsg_message_insert($message) {
