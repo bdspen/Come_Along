@@ -1,0 +1,59 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic);
+
+#main-menu {
+  display: block;
+  right: 0;
+  left: auto;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+#main-menu {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+ > li {
+  position: relative;
+  display: block;
+}
+#main-menu > li > a {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+}
+#main-menu > li > a:hover,
+#main-menu > li > a:focus {
+  text-decoration: none;
+  background-color: #eee;
+}
+#main-menu > li.disabled > a {
+  color: #777;
+}
+#main-menu > li.disabled > a:hover,
+#main-menu > li.disabled > a:focus {
+  color: #777;
+  text-decoration: none;
+  cursor: not-allowed;
+  background-color: transparent;
+}
+#main-menu .open > a,
+#main-menu .open > a:hover,
+#main-menu .open > a:focus {
+  background-color: #eee;
+  border-color: #337ab7;
+}
+#main-menu #main-menu-divider {
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}
+#main-menu > li > a > img {
+  max-width: none;
+}
+/*
+nav adds padding removes bullets
+navbar-nav removes link formatting and makes them inline
+navbar-right*/
