@@ -10,7 +10,7 @@
 function og_example_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'message-og_new_content-field_node_reference'
+  // Exported field_instance: 'message-og_new_content-field_node_reference'.
   $field_instances['message-og_new_content-field_node_reference'] = array(
     'bundle' => 'og_new_content',
     'default_value' => NULL,
@@ -68,7 +68,7 @@ function og_example_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-group-body'
+  // Exported field_instance: 'node-group-body'.
   $field_instances['node-group-body'] = array(
     'bundle' => 'group',
     'default_value' => NULL,
@@ -113,7 +113,7 @@ function og_example_field_default_field_instances() {
     'widget_type' => 'text_textarea_with_summary',
   );
 
-  // Exported field_instance: 'node-group-group_group'
+  // Exported field_instance: 'node-group-group_group'.
   $field_instances['node-group-group_group'] = array(
     'bundle' => 'group',
     'default_value' => array(
@@ -144,7 +144,7 @@ function og_example_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'group_group',
     'label' => 'Group',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
@@ -161,17 +161,18 @@ function og_example_field_default_field_instances() {
       ),
     ),
     'widget' => array(
+      'active' => 1,
       'module' => 'options',
       'settings' => array(
         'display_label' => 0,
-        'og_hide' => TRUE,
+        'og_hide' => 1,
       ),
       'type' => 'options_onoff',
       'weight' => 0,
     ),
   );
 
-  // Exported field_instance: 'node-post-body'
+  // Exported field_instance: 'node-post-body'.
   $field_instances['node-post-body'] = array(
     'bundle' => 'post',
     'default_value' => NULL,
@@ -216,7 +217,7 @@ function og_example_field_default_field_instances() {
     'widget_type' => 'text_textarea_with_summary',
   );
 
-  // Exported field_instance: 'node-post-og_group_ref'
+  // Exported field_instance: 'node-post-og_group_ref'.
   $field_instances['node-post-og_group_ref'] = array(
     'bundle' => 'post',
     'default_value' => NULL,
