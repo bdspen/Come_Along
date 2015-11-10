@@ -1,0 +1,21 @@
+name = Come Along
+description = Custom theme for Come Along Site
+core = 7.x
+engine = phptemplate
+
+regions[header] = Header
+regions[sidebar_first] = Right sidebar
+regions[content] = Content
+regions[footer] = Footer
+
+
+stylesheets[all][] = css/style.css
+stylesheets[all][] = css/bootstrap.min.css
+stylesheets[all][] = css/landing-page.css
+stylesheets[all][] = font-awesome/css/font-awesome.min.css
+
+scripts[] = js/jquery.js
+scripts[] = js/bootstrap.min.js
+
+features[] = name
+features[] = main_menu
