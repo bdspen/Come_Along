@@ -1,0 +1,5 @@
+name = Hide Comments
+description = hides comments for non members of  groups.
+package = Come along
+core = 7.x
+files[] = hide_comment.module

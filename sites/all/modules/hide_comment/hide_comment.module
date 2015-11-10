@@ -1,0 +1,7 @@
+<?php
+
+function comment_form_alter(&$form, $form_id){
+  print('<pre>');
+  print_r($form_id);
+  print('</pre>');
+}
