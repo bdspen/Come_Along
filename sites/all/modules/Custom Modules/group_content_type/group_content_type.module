@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Group Content Type feature.
+ */
+
+include_once 'group_content_type.features.inc';

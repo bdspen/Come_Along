@@ -1,0 +1,12 @@
+name = Search Bar
+core = 7.x
+package = Features
+dependencies[] = custom_search
+dependencies[] = custom_search_blocks
+dependencies[] = features
+features[features_api][] = api:2
+features[user_permission][] = administer custom search
+features[user_permission][] = administer custom search blocks
+features[user_permission][] = use custom search
+features[user_permission][] = use custom search blocks
+project path = sites/all/modules/Custom Modules
