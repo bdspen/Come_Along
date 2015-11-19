@@ -301,7 +301,7 @@ function ubercart_funds_cancel_escrow_payment_submit($form, &$form_state) {
   $transaction['type'] = 'Cancelled Escrow Payment';
 
   drupal_write_record('ubercart_funds_transactions', $transaction, 'transaction_id');
-  
+
   drupal_mail('ubercart_funds', 'escrow_cancel_from', user_load($transaction['uid'])->mail, language_default(), array('transaction' => $transaction['transaction_id']));
   drupal_mail('ubercart_funds', 'escrow_cancel_to', user_load($transaction['reference'])->mail, language_default(), array('transaction' => $transaction['transaction_id']));
 
@@ -545,7 +545,7 @@ function ubercart_funds_configure_fees_form($form, &$form_state, $enabled_method
       '#maxlength' => 5,
       '#required' => TRUE,
   );//new
-  
+
   $form['escrow'] = array(
       '#type' => 'textfield',
       '#title' => check_plain('Escrow Fee (%)'),
@@ -565,8 +565,8 @@ function ubercart_funds_configure_fees_form($form, &$form_state, $enabled_method
       '#maxlength' => 5,
       '#required' => TRUE,
   );//new
-  
-  
+
+
   $form['deposit'] = array(
       '#type' => 'fieldset',
       '#title' => check_plain('Deposit Fees'),
@@ -584,7 +584,7 @@ function ubercart_funds_configure_fees_form($form, &$form_state, $enabled_method
         '#maxlength' => 5,
         '#required' => TRUE,
     );
-    
+
     $form['deposit'][$method_id . '_fixed'] = array(
         '#type' => 'textfield',
         '#title' => /*check_plain(*/'Fixed ' . $method['title'] . ' Fee (' . variable_get('uc_currency_code', 'USD')/*commerce_default_currency()*/ . ')'/*)*/,
@@ -615,7 +615,7 @@ function ubercart_funds_configure_fees_form($form, &$form_state, $enabled_method
         '#maxlength' => 5,
         '#required' => TRUE,
     );
-    
+
     $form['withdraw'][$method_id . '_fixed'] = array(
         '#type' => 'textfield',
         '#title' => check_plain('Fixed ' . $method . ' Fee (' . variable_get('uc_currency_code', 'USD')/*commerce_default_currency()*/ . ')'),
@@ -850,10 +850,10 @@ function ubercart_funds_rules_update_account_balance($order) {
 
     $commission = array_key_exists($payment_method[0], $commissions) ? $commissions[$payment_method[0]] : 0;
     $commission_fixed = array_key_exists($payment_method[0] . '_fixed', $commissions) ? $commissions[$payment_method[0] . '_fixed'] : 0;
-    
+
     $deposit_after_commission = $order->order_total * (1.0 - $commission / 100.0); /* $order->commerce_order_total['und'][0]['amount'] * (1.0 - $commission / 100.0); */
     $deposit_after_commission_fixed = $order->order_total - $commission;
-    
+
     $user_balance->uid = $user->uid;
     $user_balance->balance = $deposit_after_commission*100;
 
@@ -908,7 +908,7 @@ function ubercart_funds_deposit_funds_form_submit($form, &$form_state) {
   $deposit->title = 'Deposit ' . uc_currency_format($form_state['values']['amount']);
 
   commerce_product_save($deposit);*/
-  
+
   ///////////////////////////////////
   $deposit = new stdClass();
   $deposit->uid = $user->uid;
@@ -928,14 +928,14 @@ function ubercart_funds_deposit_funds_form_submit($form, &$form_state) {
   $deposit->shippable = 1;
   $deposit->price = $form_state['values']['amount'];
   $deposit->pkg_qty = 1;
-  
+
   $deposit->title = 'Deposit ' . uc_currency_format($form_state['values']['amount']);
   node_save($deposit);
   $result = db_query("SELECT nid FROM {node} ORDER BY nid DESC LIMIT 1")->fetchAssoc();
   $node_nid = $result['nid'];
   $deposit_node = node_load($node_nid);
 
-  
+
   $product = new stdClass();
   $product->qty = 1;
   $product->title = $deposit_node->title;
@@ -954,36 +954,36 @@ function ubercart_funds_deposit_funds_form_submit($form, &$form_state) {
         $last_name = $address['last_name'];
         $company = $address['company'];
         $phone = $address['phone'];
-        $city = $address['city'];        
+        $city = $address['city'];
         $street1 = $address['street1'];
         $street2 = $address['street2'];
-        $postal_code = $address['postal_code'];  
-        $zone = $address['zone'];        
-        $country = $address['country'];                                               
-      }      
+        $postal_code = $address['postal_code'];
+        $zone = $address['zone'];
+        $country = $address['country'];
+      }
       if (!isset($order->primary_email))
         $order->primary_email = $email;
       $order->billing_first_name = $first_name;
       $order->billing_last_name = $last_name;
       $order->billing_company = $company;
       $order->billing_phone = $phone;
-      $order->billing_city = $city;       
-      $order->billing_street1 = $street1;        
+      $order->billing_city = $city;
+      $order->billing_street1 = $street1;
       $order->billing_street2 = $street2;
       $order->billing_postal_code = $postal_code;
-      $order->billing_zone = $zone;          
+      $order->billing_zone = $zone;
       $order->billing_country = $country;
       $order->data['type'] = 'ubercart_funds_deposit';
       $order->data['notes'] = $form_state['values']['notes'];
-                                
+
       $order->products[] = $product;
       uc_order_save($order);
       $_SESSION['cart_order'] = $order_id;
       $cid = uc_cart_get_id();
       uc_cart_empty($cid);
       uc_cart_add_item($product->nid, $qty = 1, null, $cid);
-      //$order = uc_order_load($order_id); 
-      
+      //$order = uc_order_load($order_id);
+
       drupal_goto('cart/checkout');
   /////////////////////////////////
   /*$deposit_order = ($user->uid) ? commerce_order_new($user->uid, 'checkout_checkout') : commerce_cart_order_new();
@@ -1107,7 +1107,39 @@ function ubercart_funds_escrow_payment() {
   return drupal_get_form('ubercart_funds_escrow_payment_form');
 }
 
+//This is my custom function:
+function ubercart_funds_escrow_get_group_leader($group_members) {
+  $group_admin = undefined;
+  foreach($group_members as $member) {
+    $this_group_user = $member['group_user_id'];
+    if ($group_admin === undefined) {
+      $group_admin = $member['user_id'];
+    } elseif ($member['group_user_id'] < $group_admin) {
+      $group_admin = $member['user_id'];
+    }
+  }
+  return $group_admin;
+}
+
 function ubercart_funds_escrow_payment_form($form, &$form_state) {
+
+  $group_members_raw = db_query("SELECT * FROM og_membership WHERE gid=14 AND entity_type='user'");
+  $group_members = [];
+  foreach($group_members_raw as $member) {
+    $new_member['gid'] = $member->gid;
+    $new_member['user_id'] = $member->etid;
+    $new_member['group_user_id'] = $member->id;
+    array_push($group_members, $new_member);
+  }
+  $group_admin = ubercart_funds_escrow_get_group_leader($group_members);
+  print "<pre>";
+  print_r($group_admin);
+  print "</pre>";
+
+
+
+
+
 
   $form['amount'] = array(
       '#type' => 'textfield',
@@ -1183,7 +1215,7 @@ function ubercart_funds_escrow_payment_form_submit($form, &$form_state) {
 
   $from_user = $user;
   $to_user = db_query("SELECT * FROM {users} WHERE mail='" . $form_state['values']['email'] . "'")->fetchAssoc();
-  
+
   $transfer_amount = intval($form_state['values']['amount'] * 100.0);
 
   //$commissions = variable_get('ubercart_funds_commissions', array());
@@ -1235,7 +1267,7 @@ function ubercart_funds_transfer_funds_form($form, &$form_state) {
   $form['email'] = array(
       '#type' => 'textfield',
       '#title' => t('Transfer To'),
-      '#description' => t('Please enter the email of the user you want to transfer the funds to'),
+      '#description' => t('This payment will be sent to'),
       '#default_value' => '',
       '#size' => 30,
       '#maxlength' => 128,
@@ -1298,7 +1330,7 @@ function ubercart_funds_transfer_funds_form_submit($form, &$form_state) {
   $to_user = db_query("SELECT * FROM {users} WHERE mail='" . $form_state['values']['email'] . "'")->fetchAssoc();
 
   $commissions = variable_get('ubercart_funds_commissions', array());
-  
+
 
   $commission = array_key_exists('transfer', $commissions) ? $commissions['transfer'] : 0;
   $commission_fixed = array_key_exists('transfer', $commissions) ? $commissions['transfer_fixed'] : 0;
