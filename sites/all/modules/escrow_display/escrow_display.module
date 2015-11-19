@@ -1,0 +1,11 @@
+<?php
+
+function escrow_display_block_view_block_1_alter(&$data, $block) {
+  if ($node = menu_get_object()) {
+    // Get the nid
+    $nid = $node->nid;
+  }
+  $data['content'] = "Step 1. See how much your share of the trip will cost.<br>
+    Step 2. Deposit funds <a href='/user/funds/deposit'>here.</a><br>
+    Step 3. <a href='/user/funds/create-escrow/" . $nid . "'>Transfer funds to the group admin.</a>";
+}

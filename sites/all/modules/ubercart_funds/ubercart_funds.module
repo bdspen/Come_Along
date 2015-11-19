@@ -1118,7 +1118,6 @@ function ubercart_funds_escrow_get_group_leader($group_members) {
   foreach($group_members as $member) {
     $this_group_user = $member['group_user_id'];
     if ($group_admin === 0) {
-      print($group_admin);
       $group_admin = $member['user_id'];
     } elseif ($member['group_user_id'] < $group_admin) {
       $group_admin = $member['user_id'];

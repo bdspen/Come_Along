@@ -1,0 +1,5 @@
+name = Escrow Display
+description = Adds proper links for escrow transfers.
+package = Come Along Modules
+core = 7.x
+files[] = escrow_display.module
