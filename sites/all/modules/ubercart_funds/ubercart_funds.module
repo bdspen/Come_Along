@@ -183,9 +183,12 @@ function ubercart_funds_menu() {
       'type' => MENU_LOCAL_TASK,
   );
 
-  $items['user/funds/create-escrow'] = array(
+
+  //This will have to include the group id in the arguments
+  $items['user/funds/create-escrow/%'] = array(
       'title' => 'Create Escrow Payment',
       'page callback' => 'ubercart_funds_escrow_payment',
+      'page arguments' => array(3),
       'access arguments' => array('transfer funds'),
       'type' => MENU_CALLBACK,
   );
@@ -1103,8 +1106,10 @@ function ubercart_funds_transfer_funds() {
   return drupal_get_form('ubercart_funds_transfer_funds_form');
 }
 
-function ubercart_funds_escrow_payment() {
-  return drupal_get_form('ubercart_funds_escrow_payment_form');
+
+function ubercart_funds_escrow_payment($group_id_number) {
+  $group_id_number = $group_id_number;
+  return drupal_get_form('ubercart_funds_escrow_payment_form', $group_id_number);
 }
 
 //This is my custom function:
@@ -1122,9 +1127,12 @@ function ubercart_funds_escrow_get_group_leader($group_members) {
   return $group_admin;
 }
 
-function ubercart_funds_escrow_payment_form($form, &$form_state) {
 
-  $group_members_raw = db_query("SELECT * FROM og_membership WHERE gid=14 AND entity_type='user'");
+//This is the part Come Along uses to transfer money to the group admin (this and the hook_menu are the only
+//parts I've hacked)
+function ubercart_funds_escrow_payment_form($form, &$form_state, $group_id_number) {
+
+  $group_members_raw = db_query("SELECT * FROM og_membership WHERE gid=$group_id_number AND entity_type='user'");
   $group_members = [];
   foreach($group_members_raw as $member) {
     $new_member['gid'] = $member->gid;
@@ -1142,11 +1150,6 @@ function ubercart_funds_escrow_payment_form($form, &$form_state) {
   foreach($group_admin_email as $item) {
     $default_receiver_email = $item->mail;
   }
-
-
-
-
-
 
   $form['amount'] = array(
       '#type' => 'textfield',
