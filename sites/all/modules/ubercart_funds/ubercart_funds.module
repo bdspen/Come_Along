@@ -1109,10 +1109,11 @@ function ubercart_funds_escrow_payment() {
 
 //This is my custom function:
 function ubercart_funds_escrow_get_group_leader($group_members) {
-  $group_admin = undefined;
+  $group_admin = 0;
   foreach($group_members as $member) {
     $this_group_user = $member['group_user_id'];
-    if ($group_admin === undefined) {
+    if ($group_admin === 0) {
+      print($group_admin);
       $group_admin = $member['user_id'];
     } elseif ($member['group_user_id'] < $group_admin) {
       $group_admin = $member['user_id'];
@@ -1131,10 +1132,16 @@ function ubercart_funds_escrow_payment_form($form, &$form_state) {
     $new_member['group_user_id'] = $member->id;
     array_push($group_members, $new_member);
   }
+
   $group_admin = ubercart_funds_escrow_get_group_leader($group_members);
-  print "<pre>";
-  print_r($group_admin);
-  print "</pre>";
+  $group_admin_email = db_query("SELECT * FROM users WHERE uid=$group_admin");
+
+  //There is only one item in this array, but I'm not sure how to pull it out and
+  //I'd rather get it functioning first
+  $default_receiver_email;
+  foreach($group_admin_email as $item) {
+    $default_receiver_email = $item->mail;
+  }
 
 
 
@@ -1155,10 +1162,11 @@ function ubercart_funds_escrow_payment_form($form, &$form_state) {
       '#type' => 'textfield',
       '#title' => t('Allocated To'),
       '#description' => t('Please enter the email of the user you want to allocate the escrow payment to'),
-      '#default_value' => '',
+      '#default_value' => $default_receiver_email,
       '#size' => 30,
       '#maxlength' => 128,
       '#required' => TRUE,
+      '#disabled' => TRUE,
   );
 
   $form['notes'] = array(
